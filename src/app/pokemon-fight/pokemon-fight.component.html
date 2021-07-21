@@ -1,12 +1,17 @@
 <div class="row text-center mb-3 mt-3">
     <div class="col" style="font-weight: bold">
-        {{ pokemon.name | titlecase }}
+        {{ firstPokemon.name | titlecase }}
+    </div>
+</div>
+<div class="row text-center mb-3 mt-3">
+    <div class="col" style="font-weight: bold">
+        {{ secondPokemon.name | titlecase }}
     </div>
 </div>
 <div class="row">
     <div class="col">
         <div class="progress">
-            <div class="progress-bar {{ hpColor }}"
+            <!-- <div class="progress-bar {{ hpColor }}"
                  role="progressbar"
                  [attr.aria-valuenow]="pokemon.currentHp"
                  aria-valuemin="0"
@@ -14,7 +19,7 @@
                  style="width:{{ pokemon.currentHp * 100 / pokemon.maxHp }}%">
 
                 {{pokemon.currentHp}}/{{pokemon.maxHp}}
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

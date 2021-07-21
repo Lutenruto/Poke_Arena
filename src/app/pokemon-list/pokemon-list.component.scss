@@ -1,0 +1,58 @@
+@font-face {
+    font-family: "Pokemon";
+    src: url("../../assets/pokemon_solid.ttf") format("truetype");
+  }
+  
+  * {
+      font-family: "Pokemon";
+  }
+  
+  .pokemon-picker{
+      height: 96vh; 
+      border:1px solid #FFFFFF;
+      font-family: "Pokemon";
+      color: #ffcb05;
+      text-shadow: -2px -2px 0 #2a75bb, 2px -2px 0 #2a75bb, -2px 2px 0 #2a75bb, 2px 2px 0 #2a75bb;
+      letter-spacing: .2rem;
+  }
+  
+  .pokemon:hover{
+      border: 1px solid #3c5aa6;
+      border-radius: 10px;
+      background-color: rgba(255,255,255,0.5);
+  }
+  
+  .pokemon{
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0);
+  }
+  
+  .selected{
+      border: 1px solid #3c5aa6;
+      border-radius: 10px;
+      font-weight: bold;
+      background-color: rgba(255,255,255,0.8) !important;
+  }
+  .fight-button:hover{
+      border: 3px solid black;
+  }
+  .fight-button {
+      display: flex;
+      position: absolute;
+      align-items: flex-start;
+      position: fixed;
+      width: 150px;
+      height: 150px;
+      left: 50%;
+      top: 50%;
+      margin-left: -75px;
+      margin-top: -75px;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      background-image: url("../../assets/pokeball.png");
+      background-size: 150px 150px;
+      background-color: black;
+      transition: all 0.2s;
+      border: 0px;
+  }

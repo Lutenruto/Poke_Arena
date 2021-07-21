@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Pokemon';
+  src: url('./assets/pokemon_solid.ttf') format("truetype");
+}
+
+::-webkit-scrollbar {
+    width: 1px;
+    // display: none;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #444444;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+* {
+    font-family: "Pokemon";
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: url("./assets/background.png") repeat;
+}
+
+html{
+    margin: 0;
+    padding: 0;
+}
