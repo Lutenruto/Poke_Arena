@@ -8,6 +8,7 @@ import {Pokemon} from "./models/Pokemon";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+    title = "Poke Arena"
     pokemons: Array<any> = [];
 
     constructor(private pokemonService: PokemonService){}
