@@ -9,17 +9,23 @@ import { ActivatedRoute, Params } from '@angular/router';
     styleUrls: ['./pokemon-fight.component.scss']
 })
 export class PokemonFightComponent implements OnInit {
-    pokemon: Pokemon = new Pokemon("unknown",0,0,"empty");
+    pokemon: Pokemon = new Pokemon("unknown",0,0,"empty","empty");
     
-    firstPokemon: Pokemon = new Pokemon("unknown",0,0,"empty");
-    secondPokemon: Pokemon = new Pokemon("unknown",0,0,"empty");
-    hpColor: string = "bg-default";
-
+    firstPokemon: Pokemon = new Pokemon("unknown",0,0,"empty","empty");
+    secondPokemon: Pokemon = new Pokemon("unknown",0,0,"empty","empty");
+    firstHpColor: string = "bg-default";
+    secondHpColor: string = "bg-default";
+    
     isLoaded: boolean = false;
+
+    history: string[] = [];
 
     constructor(private pokemonService: PokemonService, private route: ActivatedRoute) {}
 
     ngOnInit(){
+        // setInterval(() => {
+        //     this.history.unshift("Metapod a attaqué Dracaufeu avec telle vive-attaque et a infligé 10 de dégats");
+        // },2000)
       this.route.params.subscribe((params: Params): void => {
           let _firstPokemon = this.pokemonService.getPokemon(Number(params.first));
           let _secondPokemon = this.pokemonService.getPokemon(Number(params.second));
@@ -29,15 +35,21 @@ export class PokemonFightComponent implements OnInit {
               res.name,
               res.stats[0].base_stat,
               res.stats[0].base_stat,
-              res.sprites.front_default
+              res.sprites.front_default,
+              res.sprites.back_default
             )
+            
+            for(let i = 0; i < res.moves.length; i++){
+                
+            }
 
             _secondPokemon.subscribe( (res:any) => {
                 this.secondPokemon = new Pokemon(
                   res.name,
                   res.stats[0].base_stat,
                   res.stats[0].base_stat,
-                  res.sprites.front_default
+                  res.sprites.front_default,
+                  res.sprites.back_default
                 )
 
                 setTimeout(() => {
@@ -53,11 +65,11 @@ export class PokemonFightComponent implements OnInit {
         let percentage = this.pokemon.currentHp * 100 / this.pokemon.maxHp;
 
         if (percentage > 80){
-            this.hpColor = "bg-default";
+            this.firstHpColor = "bg-default";
         }else if(percentage > 20){
-            this.hpColor = "bg-warning";
+            this.firstHpColor = "bg-warning";
         }else{
-            this.hpColor = "bg-danger";
+            this.firstHpColor = "bg-danger";
         }
     }
 

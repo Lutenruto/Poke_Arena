@@ -1,43 +1,45 @@
 <div *ngIf="isLoaded">
-    <div class="row text-center mb-3 mt-3">
-        <div class="col" style="font-weight: bold">
-            {{ firstPokemon.name | titlecase }}
+    <h1 class="mt-4 text-center">Arena</h1>
+    <div class="col border arena">
+        <div class="row text-center mb-3 mt-3 poke1">
+            <div class="col" style="font-weight: bold">
+                <img class="poke1_img" [src]="firstPokemon.backImgLink" alt="Pokemon1">
+                <span class="pokemon-name">{{ firstPokemon.name | titlecase }}</span>
+                <div class="progress mt-2">
+                    <div class="progress-bar {{ firstHpColor }}"
+                        role="progressbar"
+                        [attr.aria-valuenow]="firstPokemon.currentHp"
+                        aria-valuemin="0"
+                        [attr.aria-valuemax]="firstPokemon.maxHp"
+                        style="width:{{ firstPokemon.currentHp * 100 / firstPokemon.maxHp }}%">
+    
+                        {{firstPokemon.currentHp}}/{{firstPokemon.maxHp}}
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row text-center mb-3 mt-3">
-        <div class="col" style="font-weight: bold">
-            {{ secondPokemon.name | titlecase }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="progress">
-                <!-- <div class="progress-bar {{ hpColor }}"
-                    role="progressbar"
-                    [attr.aria-valuenow]="pokemon.currentHp"
-                    aria-valuemin="0"
-                    [attr.aria-valuemax]="pokemon.maxHp"
-                    style="width:{{ pokemon.currentHp * 100 / pokemon.maxHp }}%">
-
-                    {{pokemon.currentHp}}/{{pokemon.maxHp}}
-                </div> -->
+        <div class="row text-center mb-3 mt-3 poke2">
+            <div class="col" style="font-weight: bold">
+                <img class="poke2_img" [src]="secondPokemon.imgLink" alt="Pokemon2">
+                <span class="pokemon-name">{{ secondPokemon.name | titlecase }}</span>
+                <div class="progress mt-2">
+                    <div class="progress-bar {{ secondHpColor }}"
+                        role="progressbar"
+                        [attr.aria-valuenow]="secondPokemon.currentHp"
+                        aria-valuemin="0"
+                        [attr.aria-valuemax]="secondPokemon.maxHp"
+                        style="width:{{ secondPokemon.currentHp * 100 / secondPokemon.maxHp }}%">
+    
+                        {{secondPokemon.currentHp}}/{{secondPokemon.maxHp}}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="row mt-4 mb-4">
-        <div class="col text-center">
-            <img src="{{ pokemon.imgLink }}" height="100px">
-        </div>
-    </div>
-
-    <div class="row mb-2">
-        <div class="col-6 text-center">
-            <button (click)="removeHp()" class="btn btn-danger mr-2" [attr.disabled]="pokemon.currentHp <= 0 ? true : null">-</button>
-        </div>
-        <div class="col-6 text-center">
-            <button (click)="addHp()" class="btn btn-success ml-2" [attr.disabled]="pokemon.currentHp == pokemon.maxHp ? true : null">+</button>
-        </div>
+    <div class="col border details_arena">
+        <p class="mb-0" *ngFor="let line of history">
+            {{ line }}
+        </p>
     </div>
 </div>
 

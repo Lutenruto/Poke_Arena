@@ -1,0 +1,53 @@
+.arena {
+    height: 40vh;
+    width: 25vw;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    margin-left: -12.5vw;
+    background-image: url(../../assets/battle.jpg);
+    background-size: 25vw 40vh;
+}
+
+.poke1 {
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+}
+.poke1_img {
+    position: relative;
+    height: 80%;
+    width: 80%;
+}
+
+.poke2 {
+    position: absolute;
+    top: 30%;
+    left: 70%;
+}
+.poke2_img {
+    position: relative;
+    height: 80%;
+    width: 80%;
+}
+
+.details_arena {
+    overflow-y: scroll;
+    height: 40vh;
+    width: 25vw;
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    margin-left: -12.5vw;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.progress{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.pokemon-name{
+    color: #ffcb05;
+    text-shadow: -2px -2px 0 #2a75bb, 2px -2px 0 #2a75bb, -2px 2px 0 #2a75bb, 2px 2px 0 #2a75bb;
+    letter-spacing: .2rem;
+}
