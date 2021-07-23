@@ -15,6 +15,6 @@ export class PokemonService{
   }
 
   getAll(): Observable<Array<Pokemon>>{
-      return this.http.get<Array<Pokemon>>("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20000");
+      return this.http.get<Array<Pokemon>>("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=151");
   }
 }

@@ -15,6 +15,9 @@ export class PokemonListComponent implements OnInit {
   firstSelected: number = 0;
   secondSelected: number = 0;
   showFightButton: boolean = false;
+
+  isLoaded: boolean = false;
+
   constructor(private pokemonService: PokemonService, private router: Router){}
 
   ngOnInit(){
@@ -22,6 +25,9 @@ export class PokemonListComponent implements OnInit {
           for(let i = 0; i < res.results.length; i++){
               let urlSplit = res.results[i].url.trim().split("/");
               res.results[i].id = urlSplit[6];
+              setTimeout(() => {
+                this.isLoaded = true;
+              },2000); 
           }
           this.pokemons = res.results;
       })

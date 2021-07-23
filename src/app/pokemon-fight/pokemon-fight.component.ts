@@ -14,6 +14,9 @@ export class PokemonFightComponent implements OnInit {
     firstPokemon: Pokemon = new Pokemon("unknown",0,0,"empty");
     secondPokemon: Pokemon = new Pokemon("unknown",0,0,"empty");
     hpColor: string = "bg-default";
+
+    isLoaded: boolean = false;
+
     constructor(private pokemonService: PokemonService, private route: ActivatedRoute) {}
 
     ngOnInit(){
@@ -28,15 +31,20 @@ export class PokemonFightComponent implements OnInit {
               res.stats[0].base_stat,
               res.sprites.front_default
             )
-          })
 
-          _secondPokemon.subscribe( (res:any) => {
-            this.secondPokemon = new Pokemon(
-              res.name,
-              res.stats[0].base_stat,
-              res.stats[0].base_stat,
-              res.sprites.front_default
-            )
+            _secondPokemon.subscribe( (res:any) => {
+                this.secondPokemon = new Pokemon(
+                  res.name,
+                  res.stats[0].base_stat,
+                  res.stats[0].base_stat,
+                  res.sprites.front_default
+                )
+
+                setTimeout(() => {
+                    this.isLoaded = true;
+                },2000);
+            })
+
           })
       });
     }
