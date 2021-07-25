@@ -30,13 +30,17 @@ export class PokemonFightComponent implements OnInit {
           let _firstPokemon = this.pokemonService.getPokemon(Number(params.first));
           let _secondPokemon = this.pokemonService.getPokemon(Number(params.second));
 
+          let moves1 = this.pokemonService.getMove(Number(params.first));
+          let moves2 = this.pokemonService.getMove(Number(params.second));
+
           _firstPokemon.subscribe( (res:any) => {
             this.firstPokemon = new Pokemon(
               res.name,
               res.stats[0].base_stat,
               res.stats[0].base_stat,
               res.sprites.front_default,
-              res.sprites.back_default
+              res.sprites.back_default,
+              res.moves1
             )
             
             for(let i = 0; i < res.moves.length; i++){
@@ -49,7 +53,8 @@ export class PokemonFightComponent implements OnInit {
                   res.stats[0].base_stat,
                   res.stats[0].base_stat,
                   res.sprites.front_default,
-                  res.sprites.back_default
+                  res.sprites.back_default,
+                  res.moves2
                 )
 
                 setTimeout(() => {
