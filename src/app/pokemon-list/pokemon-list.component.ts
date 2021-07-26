@@ -35,7 +35,7 @@ export class PokemonListComponent implements OnInit {
 
   startFight(){
     if(this.firstSelected != 0 && this.secondSelected != 0){
-      this.router.navigate([this.firstSelected, this.secondSelected]);
+      this.router.navigate(['arena/', this.firstSelected, this.secondSelected]);
     }
   }
 

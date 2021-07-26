@@ -10,10 +10,12 @@ import { PokemonFightComponent } from './pokemon-fight/pokemon-fight.component';
 
 import { PokemonService } from "./services/pokemon.service";
 import { HistoryLineComponent } from './history-line/history-line.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path : '', component: PokemonListComponent },
-  { path : ':first/:second', component: PokemonFightComponent}
+  { path : '', component: HomeComponent},
+  { path : 'arena', component: PokemonListComponent },
+  { path : 'arena/:first/:second', component: PokemonFightComponent}
 ]
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ const routes: Routes = [
     PokemonListComponent,
     TestComponent,
     PokemonFightComponent,
-    HistoryLineComponent
+    HistoryLineComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

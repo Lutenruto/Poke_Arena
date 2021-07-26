@@ -60,6 +60,18 @@ html{
     animation:spin 4s linear infinite;
 }
 
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 5px;
+  width: 100%;
+  background-color: #3c5aa6;
+  color: white;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+}
+
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
