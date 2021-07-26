@@ -1,0 +1,7 @@
+<span *ngIf='!isDead'>
+    <span style='color:yellow'>{{ attacker }}</span> a attaqué 
+    <span style='color:red'>{{ attacked }}</span> 
+    avec l'attaque <span style='color:yellow'>{{ attackName }}</span> 
+    lui infligeant <span style='color:yellow'>{{ damage }}</span> dégats
+</span>
+<span *ngIf='isDead'>{{ attacker }} a tué {{attacked}}, il remporte le combat</span>
