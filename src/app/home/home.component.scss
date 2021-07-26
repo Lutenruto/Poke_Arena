@@ -1,0 +1,43 @@
+@font-face {
+  font-family: 'Pokemon2';
+  src: url('../../assets/pokemon_hollow.ttf') format("truetype");
+}
+
+.starter {
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 2em;
+}
+
+.title {
+  color: rgb(255, 255, 255);
+  text-align: center;
+  font-size: 2.5rem;
+  padding: 14px;
+  font-family: Pokemon2;
+}
+
+.title2 {
+  font-size: 2rem;
+  color: rgb(255, 255, 255);
+  position: relative;
+  font-family: Pokemon2;
+  text-align: center;
+}
+
+.nav_arena {
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  border-radius: 8px;
+  position: absolute;
+  text-align: center;
+  left: 48%;
+  margin-top: 2em;
+  color: black;
+  border: 1px solid black;
+  font-size: 20px;
+  transition: all 0.3s linear 0s;
+}

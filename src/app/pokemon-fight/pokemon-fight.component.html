@@ -1,0 +1,59 @@
+<div *ngIf="isLoaded">
+    <a class="back" href="/arena">Back</a>
+    <h1 class="mt-4 text-center">Arena <span style="font-size:12px">| {{ dateStarted | date:'dd/MM/yyyy HH:mm:ss' }}</span></h1>
+    <div class="col border arena">
+        <div class="row text-center mb-3 mt-3 poke1">
+            <div class="col" style="font-weight: bold">
+                <img class="dead_effect_1" src="../../assets/nuage.svg" *ngIf="isFirstDead">
+                <img class="attack_effect_2" src="../../assets/attaque.svg" *ngIf="isFirstAttacked">
+                <img class="poke1_img" [ngClass]="{'move_poke1' : activeMove1}" [src]="firstPokemon.backImgLink" alt="Pokemon1">
+                <span class="pokemon-name">{{ firstPokemon.name | titlecase }}</span>
+                <div class="progress mt-2">
+                    <div class="progress-bar {{ firstPokemon.hpColor }}"
+                        role="progressbar"
+                        [attr.aria-valuenow]="firstPokemon.currentHp"
+                        aria-valuemin="0"
+                        [attr.aria-valuemax]="firstPokemon.maxHp"
+                        style="width:{{ firstPokemon.currentHp * 100 / firstPokemon.maxHp }}%">
+    
+                        {{firstPokemon.currentHp}}/{{firstPokemon.maxHp}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row text-center mb-3 mt-3 poke2">
+            <div class="col" style="font-weight: bold">
+                <img class="dead_effect_2" src="../../assets/nuage.svg" *ngIf="isSecondDead">
+                <img class="attack_effect_2" src="../../assets/attaque.svg" *ngIf="isSecondAttacked">
+                <img class="poke2_img" [ngClass]="{'move_poke2' : activeMove2}" [src]="secondPokemon.imgLink" alt="Pokemon2">
+                <span class="pokemon-name">{{ secondPokemon.name | titlecase }}</span>
+                <div class="progress mt-2">
+                    <div class="progress-bar {{ secondPokemon.hpColor }}"
+                        role="progressbar"
+                        [attr.aria-valuenow]="secondPokemon.currentHp"
+                        aria-valuemin="0"
+                        [attr.aria-valuemax]="secondPokemon.maxHp"
+                        style="width:{{ secondPokemon.currentHp * 100 / secondPokemon.maxHp }}%">
+    
+                        {{secondPokemon.currentHp}}/{{secondPokemon.maxHp}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col border details_arena">
+        <p class="mb-0" *ngFor="let line of history">
+            <app-history-line 
+                [attacker]='line.attacker' 
+                [attacked]='line.attacked' 
+                [attackName]='line.attackName' 
+                [damage]='line.damage'
+                [isDead]='line.isDead'
+            ></app-history-line>
+        </p>
+    </div>
+    <button class="pause_btn" *ngIf="isPaused && !isFirstDead && !isSecondDead" (click)="pauseFight()"><img width="20px" src="../../assets/play.png" alt="▶"></button>
+    <button class="pause_btn" *ngIf="!isPaused && !isFirstDead && !isSecondDead" (click)="pauseFight()"><img width="20px" src="../../assets/pause.png" alt="&#9613;&#9613;"></button>
+    <button class="pause_btn" *ngIf="isFirstDead || isSecondDead" (click)="replayFight()"><img width="20px" src="../../assets/replay.png" alt="replay"></button>
+</div>
+<div class="loader-poke" *ngIf="!isLoaded"></div>

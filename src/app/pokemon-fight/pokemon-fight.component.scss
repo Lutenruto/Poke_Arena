@@ -1,0 +1,168 @@
+.arena {
+    height: 40vh;
+    width: 25vw;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    margin-left: -12.5vw;
+    background-image: url(../../assets/battle.jpg);
+    background-size: 25vw 40vh;
+    border-radius: 5%;
+}
+
+h1 {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.poke1 {
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+}
+.poke1_img {
+    position: relative;
+    height: 80%;
+    width: 80%;
+}
+
+.poke2 {
+    position: absolute;
+    bottom: 30%;
+    right: 0%;
+    margin-right: 2px;
+}
+.poke2_img {
+    height: 80%;
+    width: 80%;
+}
+
+.details_arena {
+    overflow-y: scroll;
+    height: 40vh;
+    width: 25vw;
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    margin-left: -12.5vw;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 3%;
+    padding: 10px;
+}
+
+.progress{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.pokemon-name{
+    color: #ffcb05;
+    text-shadow: -2px -2px 0 #2a75bb, 2px -2px 0 #2a75bb, -2px 2px 0 #2a75bb, 2px 2px 0 #2a75bb;
+    letter-spacing: .2rem;
+}
+
+.back {
+    display: block;
+    padding: 1em 1.5em;
+    position: absolute;
+    left: 2vw;
+    top: 2vh;
+    border-radius: 8px;
+    border: 1px solid black;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    -webkit-box-align: center;
+    align-items: center;
+    transition: all 0.3s linear 0s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.move_poke1 {
+  animation-name: move1;
+  animation-duration: 2s;
+  // animation-iteration-count: infinite;
+}
+.move_poke2 {
+  animation-name: move2;
+  animation-duration: 2s;
+  // animation-iteration-count: infinite;
+}
+
+@keyframes move1 {
+  0% {
+    transform: translatex(0px) translatey(0px)
+  }
+
+  50% {
+    transform: translatex(100%) translatey(-20%);
+  }
+
+  100% {
+    transform: translatex(0px) translatey(0px)
+  }
+}
+
+@keyframes move2 {
+  0% {
+    transform: translatex(0px) translatey(0px)
+  }
+
+  50% {
+    transform: translatex(-150%) translatey(60%);
+  }
+
+  100% {
+    transform: translatex(0px) translatey(0px)
+  }
+}
+
+.attack_effect_1 {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  z-index: 10;
+  opacity: 0.9;
+}
+
+.attack_effect_2 {
+  position: absolute;
+  margin-right: 2px;
+  z-index: 10;
+  opacity: 0.9;
+}
+
+.dead_effect_1 {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  z-index: 10;
+  opacity: 0.9;
+}
+
+.dead_effect_2 {
+  position: absolute;
+  margin-right: 2px;
+  z-index: 10;
+  opacity: 0.9;
+}
+
+.pause_btn {
+  display: block;
+  padding: 1em 1.5em;
+  position: absolute;
+  right: 2vw;
+  top: 2vh;
+  border-radius: 8px;
+  border: 1px solid black;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  text-decoration: none;
+  text-align: center;
+  -webkit-box-align: center;
+  align-items: center;
+  transition: all 0.3s linear 0s;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

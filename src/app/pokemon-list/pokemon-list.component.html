@@ -1,0 +1,41 @@
+<form (submit)="startFight()">
+    <div class="container-fluid" *ngIf="isLoaded">
+        <a class="back" href="/">Back</a>
+        <h1 class="title">Choose your pokemons</h1>
+        <div class="row container-fluid m-2">
+            <div class="row">
+                <div class="col m-2 overflow-auto pokemon-picker">
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6 col-12 text-center pokemon" *ngFor="let pokemon of pokemons" [ngClass]="{'selected': firstSelected === pokemon.id, 'pokemon': firstSelected !== pokemon.id}"> <!--style="border:1px solid black"-->
+                            <div class="row" (click)="selectPokemon1(pokemon.id)">
+                                <div class="col">{{ pokemon.name | titlecase }}</div>
+                            </div>
+                            <div class="row" (click)="selectPokemon1(pokemon.id)">
+                                <div class="col">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ pokemon.id }}.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col m-2 overflow-auto pokemon-picker" >
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6 col-12 text-center pokemon" *ngFor="let pokemon of pokemons" [ngClass]="{'selected': secondSelected === pokemon.id, 'pokemon': secondSelected !== pokemon.id }"> <!--style="border:1px solid black"-->
+                            <div class="row" (click)="selectPokemon2(pokemon.id)">
+                                <div class="col">{{ pokemon.name | titlecase }}</div>
+                            </div>
+                            <div class="row" (click)="selectPokemon2(pokemon.id)">
+                                <div class="col">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ pokemon.id }}.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="fight-button" *ngIf="showFightButton"></button>
+
+    <div class="loader-poke" *ngIf="!isLoaded"></div>
+</form>
