@@ -10,6 +10,10 @@
     border-radius: 5%;
 }
 
+h1 {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
 .poke1 {
     position: absolute;
     bottom: 5%;
@@ -70,6 +74,7 @@
     -webkit-box-align: center;
     align-items: center;
     transition: all 0.3s linear 0s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .move_poke1 {
@@ -156,4 +161,8 @@
   -webkit-box-align: center;
   align-items: center;
   transition: all 0.3s linear 0s;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

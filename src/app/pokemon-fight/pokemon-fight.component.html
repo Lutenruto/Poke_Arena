@@ -1,6 +1,6 @@
 <div *ngIf="isLoaded">
     <a class="back" href="/arena">Back</a>
-    <h1 class="mt-4 text-center">Arena</h1>
+    <h1 class="mt-4 text-center">Arena <span style="font-size:12px">| {{ dateStarted | date:'dd/MM/yyyy HH:mm:ss' }}</span></h1>
     <div class="col border arena">
         <div class="row text-center mb-3 mt-3 poke1">
             <div class="col" style="font-weight: bold">
@@ -52,7 +52,8 @@
             ></app-history-line>
         </p>
     </div>
-    <button class="pause_btn" *ngIf="isPaused" (click)="pauseFight()"><img width="20px" src="../../assets/play.png" alt="▶"></button>
-    <button class="pause_btn" *ngIf="!isPaused" (click)="pauseFight()"><img width="20px" src="../../assets/pause.png" alt="&#9613;&#9613;"></button>
+    <button class="pause_btn" *ngIf="isPaused && !isFirstDead && !isSecondDead" (click)="pauseFight()"><img width="20px" src="../../assets/play.png" alt="▶"></button>
+    <button class="pause_btn" *ngIf="!isPaused && !isFirstDead && !isSecondDead" (click)="pauseFight()"><img width="20px" src="../../assets/pause.png" alt="&#9613;&#9613;"></button>
+    <button class="pause_btn" *ngIf="isFirstDead || isSecondDead" (click)="replayFight()"><img width="20px" src="../../assets/replay.png" alt="replay"></button>
 </div>
 <div class="loader-poke" *ngIf="!isLoaded"></div>

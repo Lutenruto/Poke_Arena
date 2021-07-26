@@ -3,7 +3,6 @@ import {PokemonService} from "../services/pokemon.service";
 import {Pokemon} from "../models/Pokemon";
 import { ActivatedRoute, Params } from '@angular/router';
 import { Attack } from '../models/Attack';
-import { HistoryLineComponent } from '../history-line/history-line.component';
 
 @Component({
     selector: 'app-pokemon-fight',
@@ -34,15 +33,13 @@ export class PokemonFightComponent implements OnInit {
     intervalFight:any = null;
     isPaused:boolean = true;
     
+    dateStarted:Date|undefined = undefined;
     constructor(private pokemonService: PokemonService, private route: ActivatedRoute) {}
 
     ngOnInit(){
       this.route.params.subscribe((params: Params): void => {
           let _firstPokemon = this.pokemonService.getPokemon(Number(params.first));
           let _secondPokemon = this.pokemonService.getPokemon(Number(params.second));
-
-          let moves1 = this.pokemonService.getMove(Number(params.first));
-          let moves2 = this.pokemonService.getMove(Number(params.second));
 
           _firstPokemon.subscribe( (res:any) => {
             this.firstPokemon = new Pokemon(
@@ -82,7 +79,7 @@ export class PokemonFightComponent implements OnInit {
                 setTimeout(() => {
                     this.isLoaded = true;
                 },1500);
-                console.log(this.firstPokemon);
+                console.log(this.secondPokemon);
                 
                 this.intervalFight = setInterval(() => {
                     this.attack();
@@ -96,7 +93,7 @@ export class PokemonFightComponent implements OnInit {
     async getMove(idMove: number,pokemon: Pokemon){
         this.pokemonService.getMove(idMove).subscribe( (moveRes:any) => {
             if(moveRes.power > 0){
-                let move = new Attack(moveRes.names[3].name, moveRes.type.name, moveRes.power);
+                let move = new Attack(moveRes.names[3].name, moveRes.type.name, Number(moveRes.power));
                 pokemon.moves?.push(move);
             }
         });
@@ -135,7 +132,7 @@ export class PokemonFightComponent implements OnInit {
 
             
             if (attacker !== undefined && attacked !== undefined && attacker.moves !== undefined){
-                let randomNbr = Math.floor(Math.random() * (attacker.moves.length + 1));
+                let randomNbr = Math.floor(Math.random() * (attacker.moves.length));
                 let randomAttack = attacker.moves[randomNbr];
 
                 let damages = Math.floor(( ((5 * 0.4 + 2) * attacker.attackStat * randomAttack.damage) / (attacked.defenseStat * 50) ) + 1);
@@ -187,6 +184,30 @@ export class PokemonFightComponent implements OnInit {
     }
 
     pauseFight(){
+        if(this.dateStarted == undefined){
+            this.dateStarted = new Date();
+        }
         this.isPaused = this.isPaused ? false:true;
+    }
+
+    replayFight(){
+        this.history = [];
+        this.firstPokemon.currentHp = this.firstPokemon.maxHp;
+        this.secondPokemon.currentHp = this.secondPokemon.maxHp;
+
+        this.firstPokemon.hpColor = "bg-default";
+        this.secondPokemon.hpColor = "bg-default";
+
+        this.isFirstDead = false;
+        this.isSecondDead = false;
+
+        this.intervalFight = setInterval(() => {
+            this.attack();
+        },3000);
+
+        this.dateStarted = new Date();
+        
+        this.lastAttacker = 2;
+        this.isPaused = false;
     }
 }
