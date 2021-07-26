@@ -52,6 +52,7 @@
             ></app-history-line>
         </p>
     </div>
+    <button class="pause_btn" *ngIf="isPaused" (click)="pauseFight()"><img width="20px" src="../../assets/play.png" alt="▶"></button>
+    <button class="pause_btn" *ngIf="!isPaused" (click)="pauseFight()"><img width="20px" src="../../assets/pause.png" alt="&#9613;&#9613;"></button>
 </div>
-
 <div class="loader-poke" *ngIf="!isLoaded"></div>

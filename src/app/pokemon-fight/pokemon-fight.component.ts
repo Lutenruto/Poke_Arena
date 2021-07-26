@@ -32,6 +32,8 @@ export class PokemonFightComponent implements OnInit {
     isSecondAttacked:boolean = false;
 
     intervalFight:any = null;
+    isPaused:boolean = true;
+    
     constructor(private pokemonService: PokemonService, private route: ActivatedRoute) {}
 
     ngOnInit(){
@@ -101,71 +103,73 @@ export class PokemonFightComponent implements OnInit {
     }
 
     attack(){
-        let attacker:Pokemon;
-        let attacked:Pokemon;
-        let isFirstAttacker:boolean;
-        if(this.lastAttacker == 2){
-            attacker = this.firstPokemon;
-            attacked = this.secondPokemon;
+        if(!this.isPaused){
+            let attacker:Pokemon;
+            let attacked:Pokemon;
+            let isFirstAttacker:boolean;
+            if(this.lastAttacker == 2){
+                attacker = this.firstPokemon;
+                attacked = this.secondPokemon;
+                
+                isFirstAttacker = true;
+                this.lastAttacker = 1;
+
+                this.activeMove1 = true;
+                this.activeMove2 = false;
+                
+                this.isFirstAttacked = false;
+                this.isSecondAttacked = true;
+            }else{
+                attacker = this.secondPokemon;
+                attacked = this.firstPokemon;
+
+                isFirstAttacker = false;
+                this.lastAttacker = 2;
+
+                this.activeMove1 = false;
+                this.activeMove2 = true;
             
-            isFirstAttacker = true;
-            this.lastAttacker = 1;
+                this.isFirstAttacked = true;
+                this.isSecondAttacked = false;
+            }
 
-            this.activeMove1 = true;
-            this.activeMove2 = false;
             
-            this.isFirstAttacked = false;
-            this.isSecondAttacked = true;
-        }else{
-            attacker = this.secondPokemon;
-            attacked = this.firstPokemon;
+            if (attacker !== undefined && attacked !== undefined && attacker.moves !== undefined){
+                let randomNbr = Math.floor(Math.random() * (attacker.moves.length + 1));
+                let randomAttack = attacker.moves[randomNbr];
 
-            isFirstAttacker = false;
-            this.lastAttacker = 2;
-
-            this.activeMove1 = false;
-            this.activeMove2 = true;
-        
-            this.isFirstAttacked = true;
-            this.isSecondAttacked = false;
-        }
-
-        
-        if (attacker !== undefined && attacked !== undefined && attacker.moves !== undefined){
-            let randomNbr = Math.floor(Math.random() * (attacker.moves.length + 1));
-            let randomAttack = attacker.moves[randomNbr];
-
-            let damages = Math.floor(( ((5 * 0.4 + 2) * attacker.attackStat * randomAttack.damage) / (attacked.defenseStat * 50) ) + 1);
-            
-            this.checkHpColor(attacked);
-            this.history.unshift({
-                'attacker': attacker.name,
-                'attacked': attacked.name,
-                'attackName': randomAttack.name,
-                'damage': damages,
-                'isDead': false
-            })
-            if(attacked.currentHp - damages <= 0){
-                attacked.currentHp = 0;
-                clearInterval(this.intervalFight);
+                let damages = Math.floor(( ((5 * 0.4 + 2) * attacker.attackStat * randomAttack.damage) / (attacked.defenseStat * 50) ) + 1);
+                
+                this.checkHpColor(attacked);
                 this.history.unshift({
                     'attacker': attacker.name,
                     'attacked': attacked.name,
                     'attackName': randomAttack.name,
                     'damage': damages,
-                    'isDead': true
+                    'isDead': false
                 })
+                if(attacked.currentHp - damages <= 0){
+                    attacked.currentHp = 0;
+                    clearInterval(this.intervalFight);
+                    this.history.unshift({
+                        'attacker': attacker.name,
+                        'attacked': attacked.name,
+                        'attackName': randomAttack.name,
+                        'damage': damages,
+                        'isDead': true
+                    })
 
-                if(isFirstAttacker){
-                    this.isSecondDead = true;
+                    if(isFirstAttacker){
+                        this.isSecondDead = true;
+                    }else{
+                        this.isFirstDead = true;
+                    }
+
+                    this.isFirstAttacked = false;
+                    this.isSecondAttacked = false;
                 }else{
-                    this.isFirstDead = true;
+                    attacked.currentHp = attacked.currentHp - damages;
                 }
-
-                this.isFirstAttacked = false;
-                this.isSecondAttacked = false;
-            }else{
-                attacked.currentHp = attacked.currentHp - damages;
             }
         }
     }
@@ -175,10 +179,14 @@ export class PokemonFightComponent implements OnInit {
 
         if (percentage > 80){
             pkmn.hpColor = "bg-default";
-        }else if(percentage > 20){
+        }else if(percentage > 50){
             pkmn.hpColor = "bg-warning";
         }else{
             pkmn.hpColor = "bg-danger";
         }
+    }
+
+    pauseFight(){
+        this.isPaused = this.isPaused ? false:true;
     }
 }

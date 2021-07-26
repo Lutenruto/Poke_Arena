@@ -34,7 +34,9 @@ export class PokemonListComponent implements OnInit {
   }
 
   startFight(){
+    if(this.firstSelected != 0 && this.secondSelected != 0){
       this.router.navigate([this.firstSelected, this.secondSelected]);
+    }
   }
 
   selectPokemon1(idPkmn:number){
