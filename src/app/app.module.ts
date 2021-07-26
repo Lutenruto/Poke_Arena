@@ -9,6 +9,7 @@ import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
 import { PokemonFightComponent } from './pokemon-fight/pokemon-fight.component';
 
 import { PokemonService } from "./services/pokemon.service";
+import { HistoryLineComponent } from './history-line/history-line.component';
 
 const routes: Routes = [
   { path : '', component: PokemonListComponent },
@@ -19,7 +20,8 @@ const routes: Routes = [
     AppComponent,
     PokemonListComponent,
     TestComponent,
-    PokemonFightComponent
+    PokemonFightComponent,
+    HistoryLineComponent
   ],
   imports: [
     BrowserModule,

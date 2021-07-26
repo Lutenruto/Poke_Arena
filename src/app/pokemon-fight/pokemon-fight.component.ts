@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {PokemonService} from "../services/pokemon.service";
 import {Pokemon} from "../models/Pokemon";
 import { ActivatedRoute, Params } from '@angular/router';
+import { Attack } from '../models/Attack';
+import { HistoryLineComponent } from '../history-line/history-line.component';
 
 @Component({
     selector: 'app-pokemon-fight',
@@ -9,26 +11,36 @@ import { ActivatedRoute, Params } from '@angular/router';
     styleUrls: ['./pokemon-fight.component.scss']
 })
 export class PokemonFightComponent implements OnInit {
-    pokemon: Pokemon = new Pokemon("unknown",0,0,"empty","empty");
-    
-    firstPokemon: Pokemon = new Pokemon("unknown",0,0,"empty","empty");
-    secondPokemon: Pokemon = new Pokemon("unknown",0,0,"empty","empty");
+    firstPokemon: Pokemon = new Pokemon("unknown",0,0,"empty","empty",0,0);
+    secondPokemon: Pokemon = new Pokemon("unknown",0,0,"empty","empty",0,0);
     firstHpColor: string = "bg-default";
     secondHpColor: string = "bg-default";
     
     isLoaded: boolean = false;
 
-    history: string[] = [];
+    history: any[] = [];
 
+    lastAttacker: number = 2;
+    
+    activeMove1:boolean = false;
+    activeMove2:boolean = false;
+    
+    isFirstDead:boolean = false;
+    isSecondDead:boolean = false;
+
+    isFirstAttacked:boolean = false;
+    isSecondAttacked:boolean = false;
+
+    intervalFight:any = null;
     constructor(private pokemonService: PokemonService, private route: ActivatedRoute) {}
 
     ngOnInit(){
-        // setInterval(() => {
-        //     this.history.unshift("Metapod a attaqué Dracaufeu avec telle vive-attaque et a infligé 10 de dégats");
-        // },2000)
       this.route.params.subscribe((params: Params): void => {
           let _firstPokemon = this.pokemonService.getPokemon(Number(params.first));
           let _secondPokemon = this.pokemonService.getPokemon(Number(params.second));
+
+          let moves1 = this.pokemonService.getMove(Number(params.first));
+          let moves2 = this.pokemonService.getMove(Number(params.second));
 
           _firstPokemon.subscribe( (res:any) => {
             this.firstPokemon = new Pokemon(
@@ -36,12 +48,17 @@ export class PokemonFightComponent implements OnInit {
               res.stats[0].base_stat,
               res.stats[0].base_stat,
               res.sprites.front_default,
-              res.sprites.back_default
+              res.sprites.back_default,
+              res.stats[1].base_stat,
+              res.stats[2].base_stat,
+              []
             )
-            
-            for(let i = 0; i < res.moves.length; i++){
-                
-            }
+
+            res.moves.forEach( async (moveObj:any) => {
+                let moveId = moveObj.move.url.split('/')[6];
+                await this.getMove(moveId,this.firstPokemon);
+            })
+
 
             _secondPokemon.subscribe( (res:any) => {
                 this.secondPokemon = new Pokemon(
@@ -49,45 +66,119 @@ export class PokemonFightComponent implements OnInit {
                   res.stats[0].base_stat,
                   res.stats[0].base_stat,
                   res.sprites.front_default,
-                  res.sprites.back_default
+                  res.sprites.back_default,
+                  res.stats[1].base_stat,
+                  res.stats[2].base_stat,
+                  []
                 )
+                
+                res.moves.forEach( async (moveObj:any) => {
+                    let moveId = moveObj.move.url.split('/')[6];
+                    await this.getMove(moveId,this.secondPokemon);
+                })
 
                 setTimeout(() => {
                     this.isLoaded = true;
-                },2000);
-            })
+                },1500);
+                console.log(this.firstPokemon);
+                
+                this.intervalFight = setInterval(() => {
+                    this.attack();
+                },3000);
+            });
 
           })
       });
     }
 
-    checkHpColor(){
-        let percentage = this.pokemon.currentHp * 100 / this.pokemon.maxHp;
+    async getMove(idMove: number,pokemon: Pokemon){
+        this.pokemonService.getMove(idMove).subscribe( (moveRes:any) => {
+            if(moveRes.power > 0){
+                let move = new Attack(moveRes.name, moveRes.type.name, moveRes.power);
+                pokemon.moves?.push(move);
+            }
+        });
+    }
+
+    attack(){
+        let attacker:Pokemon;
+        let attacked:Pokemon;
+        let isFirstAttacker:boolean;
+        if(this.lastAttacker == 2){
+            attacker = this.firstPokemon;
+            attacked = this.secondPokemon;
+            
+            isFirstAttacker = true;
+            this.lastAttacker = 1;
+
+            this.activeMove1 = true;
+            this.activeMove2 = false;
+            
+            this.isFirstAttacked = false;
+            this.isSecondAttacked = true;
+        }else{
+            attacker = this.secondPokemon;
+            attacked = this.firstPokemon;
+
+            isFirstAttacker = false;
+            this.lastAttacker = 2;
+
+            this.activeMove1 = false;
+            this.activeMove2 = true;
+        
+            this.isFirstAttacked = true;
+            this.isSecondAttacked = false;
+        }
+
+        
+        if (attacker !== undefined && attacked !== undefined && attacker.moves !== undefined){
+            let randomNbr = Math.floor(Math.random() * (attacker.moves.length + 1));
+            let randomAttack = attacker.moves[randomNbr];
+
+            let damages = Math.floor(( ((5 * 0.4 + 2) * attacker.attackStat * randomAttack.damage) / (attacked.defenseStat * 50) ) + 1);
+            
+            this.checkHpColor(attacked);
+            this.history.unshift({
+                'attacker': attacker.name,
+                'attacked': attacked.name,
+                'attackName': randomAttack.name,
+                'damage': damages,
+                'isDead': false
+            })
+            if(attacked.currentHp - damages <= 0){
+                attacked.currentHp = 0;
+                clearInterval(this.intervalFight);
+                this.history.unshift({
+                    'attacker': attacker.name,
+                    'attacked': attacked.name,
+                    'attackName': randomAttack.name,
+                    'damage': damages,
+                    'isDead': true
+                })
+
+                if(isFirstAttacker){
+                    this.isSecondDead = true;
+                }else{
+                    this.isFirstDead = true;
+                }
+
+                this.isFirstAttacked = false;
+                this.isSecondAttacked = false;
+            }else{
+                attacked.currentHp = attacked.currentHp - damages;
+            }
+        }
+    }
+    
+    checkHpColor(pkmn: Pokemon){
+        let percentage = pkmn.currentHp * 100 / pkmn.maxHp;
 
         if (percentage > 80){
-            this.firstHpColor = "bg-default";
+            pkmn.hpColor = "bg-default";
         }else if(percentage > 20){
-            this.firstHpColor = "bg-warning";
+            pkmn.hpColor = "bg-warning";
         }else{
-            this.firstHpColor = "bg-danger";
+            pkmn.hpColor = "bg-danger";
         }
-    }
-
-    removeHp(){
-        if(this.pokemon.currentHp - 5 < 0){
-            this.pokemon.currentHp = 0;
-        }else{
-            this.pokemon.currentHp -= 5;
-        }
-        this.checkHpColor();
-    }
-
-    addHp(){
-        if(this.pokemon.currentHp + 5 > this.pokemon.maxHp){
-            this.pokemon.currentHp = this.pokemon.maxHp;
-        }else{
-            this.pokemon.currentHp += 5;
-        }
-        this.checkHpColor();
     }
 }
