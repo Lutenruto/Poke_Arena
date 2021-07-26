@@ -1,7 +1,13 @@
-<span *ngIf='!isDead'>
-    <span style='color:yellow'>{{ attacker }}</span> a attaqué 
-    <span style='color:red'>{{ attacked }}</span> 
-    avec l'attaque <span style='color:yellow'>{{ attackName }}</span> 
-    lui infligeant <span style='color:yellow'>{{ damage }}</span> dégats
+<span class="m-1" *ngIf='!isDead'>
+    <span class="pokemon-name">{{ attacker | titlecase }}</span> a attaqué 
+    <span class="pokemon-name">{{ attacked | titlecase }}</span> 
+    avec l'attaque <span class="attack-name">{{ attackName | titlecase }}</span> 
+    lui infligeant <span style='color:red'>{{ damage }}</span> dégats
 </span>
-<span *ngIf='isDead'>{{ attacker }} a tué {{attacked}}, il remporte le combat</span>
+<span class="m-1" *ngIf='isDead'>
+    <span class="pokemon-name">{{ attacker | titlecase }}</span> 
+    a tué 
+    <span class="pokemon-name">{{attacked | titlecase}}</span>,
+    il remporte le combat
+</span>
+<hr>

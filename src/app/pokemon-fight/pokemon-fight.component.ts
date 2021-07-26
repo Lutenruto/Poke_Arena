@@ -94,7 +94,7 @@ export class PokemonFightComponent implements OnInit {
     async getMove(idMove: number,pokemon: Pokemon){
         this.pokemonService.getMove(idMove).subscribe( (moveRes:any) => {
             if(moveRes.power > 0){
-                let move = new Attack(moveRes.name, moveRes.type.name, moveRes.power);
+                let move = new Attack(moveRes.names[3].name, moveRes.type.name, moveRes.power);
                 pokemon.moves?.push(move);
             }
         });
