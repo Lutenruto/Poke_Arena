@@ -37,11 +37,15 @@ export class PokemonFightComponent implements OnInit {
     constructor(private pokemonService: PokemonService, private route: ActivatedRoute) {}
 
     ngOnInit(){
-      this.route.params.subscribe((params: Params): void => {
+      this.route.params.pipe(
+          mergeMap((params: Params): void => {
+
           let _firstPokemon = this.pokemonService.getPokemon(Number(params.first));
           let _secondPokemon = this.pokemonService.getPokemon(Number(params.second));
 
-          _firstPokemon.subscribe( (res:any) => {
+          return _firstPokemon;
+          }),
+          mergeMap((res:any) => {
             this.firstPokemon = new Pokemon(
               res.name,
               res.stats[0].base_stat,
@@ -87,7 +91,7 @@ export class PokemonFightComponent implements OnInit {
             });
 
           })
-      });
+      })).subscribe();
     }
 
     async getMove(idMove: number,pokemon: Pokemon){
