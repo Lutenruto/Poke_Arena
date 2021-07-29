@@ -52,8 +52,8 @@
             ></app-history-line>
         </p>
     </div>
-    <button class="pause_btn" *ngIf="isPaused && !isFirstDead && !isSecondDead" (click)="pauseFight()"><img width="20px" src="../../assets/play.png" alt="▶"></button>
-    <button class="pause_btn" *ngIf="!isPaused && !isFirstDead && !isSecondDead" (click)="pauseFight()"><img width="20px" src="../../assets/pause.png" alt="&#9613;&#9613;"></button>
+    <button class="pause_btn" *ngIf="isPaused && !isFirstDead && !isSecondDead" (click)="pauseFight()"><img width="20px" src="../../assets/play.png" alt="play"></button>
+    <button class="pause_btn" *ngIf="!isPaused && !isFirstDead && !isSecondDead" (click)="pauseFight()"><img width="20px" src="../../assets/pause.png" alt="pause"></button>
     <button class="pause_btn" *ngIf="isFirstDead || isSecondDead" (click)="replayFight()"><img width="20px" src="../../assets/replay.png" alt="replay"></button>
 </div>
 <div class="loader-poke" *ngIf="!isLoaded"></div>
